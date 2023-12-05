@@ -1,57 +1,45 @@
-import logo from "./logo.svg"
-import { Counter } from "./features/counter/Counter"
-import "./App.css"
+import { Global, css } from '@emotion/react';
+import { ReactNode } from 'react';
+import { Navigate, Routes as ReactRouterRoutes, Route } from 'react-router-dom';
 
-function App() {
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
-  )
+    <>
+      <Global
+        styles={css`
+          h1,
+          h2,
+          h3,
+          h4,
+          h5,
+          h6 {
+            font-size: 1em;
+            font-weight: normal;
+            margin: 0; /* or ‘0 0 1em’ if you’re so inclined */
+          }
+        `}
+      />
+      <Layout>
+        <ReactRouterRoutes>
+          <Route path="*" element={<Navigate replace to="/" />} />
+        </ReactRouterRoutes>
+      </Layout>
+    </>
+  );
 }
 
-export default App
+function Layout({ children }: { children: ReactNode }) {
+  return (
+    <div
+      css={css`
+        max-width: 100%;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        height: auto;
+      `}
+    >
+      {children}
+    </div>
+  );
+}
