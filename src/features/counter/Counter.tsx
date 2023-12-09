@@ -7,7 +7,7 @@ import styles from './Counter.module.css';
 import FormTitle from '../../components/FormTitle';
 import Button from '@mui/material/Button';
 import { generateStringId } from '../../utils/generateId';
-import Question from '../../components/Question';
+import Question from '../../components/Question/Create';
 import { reorderFormField } from './formSlice';
 import Drag from '../../components/Drag';
 import Drop from '../../components/Drop';

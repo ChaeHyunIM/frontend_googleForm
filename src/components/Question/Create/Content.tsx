@@ -1,11 +1,11 @@
-import Input from '../Input';
-import { Checkbox, Radio, FormGroup, FormControlLabel, Button, Stack } from '@mui/material';
+import Input from '../../Input';
+import { Checkbox, Radio, FormGroup, FormControlLabel, Button, Stack, RadioGroup } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { FormFieldState, editFormField } from '../../features/counter/formSlice';
-import { generateNumberId } from '../../utils/generateId';
-import Drag from '../Drag';
-import Drop from '../Drop';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { FormFieldState, editFormField } from '../../../features/counter/formSlice';
+import { generateNumberId } from '../../../utils/generateId';
+import Drag from '../../Drag';
+import Drop from '../../Drop';
 
 export default function Content({ id }: { id: FormFieldState['id'] }) {
   const formFields = useAppSelector(state => state.formField);
@@ -57,11 +57,9 @@ export default function Content({ id }: { id: FormFieldState['id'] }) {
     case '장문형':
       return <Input inputProps={{ readOnly: true }} placeholder={`${field?.type} 텍스트`} />;
     case '객관식 질문':
-    case '체크박스':
-    case '드롭다운':
       return (
-        <FormGroup>
-          <Drop onDragEnd={handleDragEnd}>
+        <Drop onDragEnd={handleDragEnd}>
+          <RadioGroup>
             {field?.options?.map((option, index) => (
               <Drag id={option.id} index={index} key={option.id}>
                 <FormControlLabel
@@ -79,11 +77,38 @@ export default function Content({ id }: { id: FormFieldState['id'] }) {
                 />
               </Drag>
             ))}
-          </Drop>
+          </RadioGroup>
           <Button sx={{ width: '200px', height: '40px' }} onClick={handleAddOption}>
             옵션추가
           </Button>
-        </FormGroup>
+        </Drop>
+      );
+    case '체크박스':
+    case '드롭다운':
+      return (
+        <Drop onDragEnd={handleDragEnd}>
+          <FormGroup>
+            {field?.options?.map((option, index) => (
+              <Drag id={option.id} index={index} key={option.id}>
+                <FormControlLabel
+                  key={option.id}
+                  control={
+                    <>
+                      {field?.type === '체크박스' && <Checkbox />}
+                      {field?.type === '드롭다운' && <div>{index}</div>}
+                      <Input id={option.id} value={option.label} onChange={handleOptionInputChange} />
+                      <ClearIcon onClick={() => handleDeleteOption(option.id)} />
+                    </>
+                  }
+                  label={''}
+                />
+              </Drag>
+            ))}
+          </FormGroup>
+          <Button sx={{ width: '200px', height: '40px' }} onClick={handleAddOption}>
+            옵션추가
+          </Button>
+        </Drop>
       );
     default:
       return null;

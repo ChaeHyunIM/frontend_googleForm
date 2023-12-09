@@ -1,22 +1,20 @@
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { answerQuestion } from '../../features/counter/formSlice';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { answerQuestion } from '../../../features/counter/formSlice';
 import Stack from '@mui/material/Stack';
 import Radio from '@mui/material/Radio';
 import Checkbox from '@mui/material/Checkbox';
-import Typography from '@mui/material/Typography';
-import Input from '../Input';
-import Dropdown from '../Dropdown';
+import Input from '../../Input';
+import Dropdown from '../../Dropdown';
 import FormGroup from '@mui/material/FormGroup';
 import { FormFieldState } from 'features/counter/formSlice';
-import TitleBox from '../FormTitle/TitleBox';
 import RadioGroup from '@mui/material/RadioGroup';
 
-export default function Preview() {
+export default function PreviewQuestion({ id }: { id: FormFieldState['id'] }) {
   const dispatch = useAppDispatch();
   const formFields = useAppSelector(state => state.formField);
-  const formHeader = useAppSelector(state => state.formHeader);
   const formResponse = useAppSelector(state => state.formResponse);
+  const field = formFields.find(field => field.id === id) ?? null;
 
   const handleAnswerQuestion = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(answerQuestion({ id: e.target.id, response: e.target.value }));
@@ -85,25 +83,12 @@ export default function Preview() {
         return null;
     }
   };
+  if (!field) return null;
 
   return (
     <Stack>
-      <TitleBox>
-        <Stack spacing={1}>
-          <Typography sx={{ fontSize: '36px', fontWeight: 500 }}>{formHeader.title}</Typography>
-          {formHeader.description && <Typography sx={{ fontSize: '16px' }}>{formHeader.description}</Typography>}
-        </Stack>
-      </TitleBox>
-      <Stack spacing={4}>
-        {formFields.map(field => {
-          return (
-            <Stack>
-              {field.label}
-              {renderQuestionContent(field)}
-            </Stack>
-          );
-        })}
-      </Stack>
+      {field.label}
+      {renderQuestionContent(field)}
     </Stack>
   );
 }

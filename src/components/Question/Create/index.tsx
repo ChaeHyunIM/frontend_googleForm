@@ -1,15 +1,15 @@
 import Stack from '@mui/material/Stack';
-import Input from '../Input';
+import Input from '../../Input';
 import Divider from '@mui/material/Divider';
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import DropDown from '../Dropdown';
+import DropDown from '../../Dropdown';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import Content from './Content';
-import { FormFieldState, addFormField, deleteFormField, editFormField } from '../../features/counter/formSlice';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { generateNumberId, generateStringId } from '../../utils/generateId';
+import { FormFieldState, addFormField, deleteFormField, editFormField } from '../../../features/counter/formSlice';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { generateNumberId, generateStringId } from '../../../utils/generateId';
 import IconButton from '@mui/material/IconButton';
 
 const questionTypes = ['단답형', '장문형', '객관식 질문', '체크박스', '드롭다운'];

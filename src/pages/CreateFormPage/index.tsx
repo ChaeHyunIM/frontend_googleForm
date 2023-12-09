@@ -5,7 +5,7 @@ import { addFormField, reorderFormField } from '../../features/counter/formSlice
 import FormTitle from '../../components/FormTitle';
 import Button from '@mui/material/Button';
 import { generateStringId } from '../../utils/generateId';
-import Question from '../../components/Question';
+import Question from '../../components/Question/Create';
 import Drag from '../../components/Drag';
 import Drop from '../../components/Drop';
 import { useNavigate } from 'react-router-dom';
