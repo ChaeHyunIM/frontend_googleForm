@@ -4,8 +4,10 @@ import Typography from '@mui/material/Typography';
 import TitleBox from '../../components/FormTitle/TitleBox';
 import PreviewQuestion from '../../components/Question/Preview';
 import Button from '@mui/material/Button';
+import { useNavigate } from 'react-router-dom';
 
-export default function Preview() {
+export default function PreviewFormPage() {
+  const navigate = useNavigate();
   const formFields = useAppSelector(state => state.formField);
   const formHeader = useAppSelector(state => state.formHeader);
 
@@ -23,7 +25,14 @@ export default function Preview() {
         })}
       </Stack>
       <Stack direction={'row'} justifyContent={'space-between'}>
-        <Button variant="contained">제출</Button>
+        <Button
+          variant="contained"
+          onClick={() => {
+            navigate('/result');
+          }}
+        >
+          제출
+        </Button>
         <Button variant="outlined">양식 지우기</Button>
       </Stack>
     </Stack>

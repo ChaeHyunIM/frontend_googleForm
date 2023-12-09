@@ -1,6 +1,5 @@
 import React from 'react';
 import { Draggable, DraggableProvided } from 'react-beautiful-dnd';
-import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 
 interface DragProps {
   children: React.ReactNode;

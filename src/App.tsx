@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 // import { CreateFormPage } from './features/counter/Counter';
 import CreateFormPage from './pages/CreateFormPage';
 import PreviewFormPage from './pages/PreviewFormPage';
+import ResultPage from './pages/ResultPage';
 
 export default function App() {
   return (
@@ -27,6 +28,7 @@ export default function App() {
           <Route path="*" element={<Navigate replace to="/" />} />
           <Route path="/" element={<CreateFormPage />} />
           <Route path="/preview" element={<PreviewFormPage />} />
+          <Route path="/result" element={<ResultPage />} />
         </Routes>
       </Layout>
     </Router>
