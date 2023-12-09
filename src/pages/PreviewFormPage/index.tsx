@@ -1,4 +1,5 @@
-import { useAppSelector } from '../../app/hooks';
+import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import { initializeResponse } from '../../features/counter/formSlice';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import TitleBox from '../../components/FormTitle/TitleBox';
@@ -8,8 +9,10 @@ import { useNavigate } from 'react-router-dom';
 
 export default function PreviewFormPage() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const formFields = useAppSelector(state => state.formField);
   const formHeader = useAppSelector(state => state.formHeader);
+  const formResponse = useAppSelector(state => state.formResponse);
 
   return (
     <Stack>
@@ -33,7 +36,9 @@ export default function PreviewFormPage() {
         >
           제출
         </Button>
-        <Button variant="outlined">양식 지우기</Button>
+        <Button variant="outlined" onClick={() => dispatch(initializeResponse())}>
+          양식 지우기
+        </Button>
       </Stack>
     </Stack>
   );

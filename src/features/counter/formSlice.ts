@@ -87,6 +87,9 @@ const formResponseSlice = createSlice({
       const { id, response } = action.payload;
       state[id] = response;
     },
+    initializeResponse: () => {
+      return initialFormResponseState;
+    },
   },
 });
 
@@ -94,7 +97,7 @@ export const { editFormHeader } = formHeaderSlice.actions;
 
 export const { addFormField, editFormField, deleteFormField, reorderFormField } = formFieldsSlice.actions;
 
-export const { answerQuestion } = formResponseSlice.actions;
+export const { answerQuestion, initializeResponse } = formResponseSlice.actions;
 
 export const selectFormFields = (state: RootState) => state.formField;
 

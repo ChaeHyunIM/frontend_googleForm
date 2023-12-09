@@ -42,14 +42,20 @@ export default function PreviewQuestion({ id }: { id: FormFieldState['id'] }) {
     switch (field.type) {
       case '단답형':
       case '장문형':
-        return <Input id={field.id} onChange={handleAnswerQuestion} />;
+        return <Input id={field.id} onChange={handleAnswerQuestion} value={formResponse[field.id] ?? ''} />;
       case '객관식 질문':
         return (
           <RadioGroup id={field.id} onChange={e => handleRadioQuestion(e, field.id)}>
             {field.options?.map(option => (
               <FormControlLabel
                 key={option.id}
-                control={<Radio id={option.id} value={option.label} />}
+                control={
+                  <Radio
+                    id={option.id}
+                    value={option.label}
+                    checked={(formResponse[field.id] ?? []).includes(option.label)}
+                  />
+                }
                 label={option.label}
               />
             ))}
@@ -63,7 +69,12 @@ export default function PreviewQuestion({ id }: { id: FormFieldState['id'] }) {
                 <FormControlLabel
                   key={option.id}
                   control={
-                    <Checkbox id={option.id} value={option.label} onChange={e => handleCheckBoxQuestion(e, field.id)} />
+                    <Checkbox
+                      id={option.id}
+                      value={option.label}
+                      onChange={e => handleCheckBoxQuestion(e, field.id)}
+                      checked={(formResponse[field.id] ?? []).includes(option.label)}
+                    />
                   }
                   label={option.label}
                 />
@@ -75,7 +86,7 @@ export default function PreviewQuestion({ id }: { id: FormFieldState['id'] }) {
         return (
           <Dropdown
             options={field?.options?.map(el => el.label) ?? []}
-            value={formResponse[field.id] as string}
+            value={(formResponse[field.id] as string) ?? ''}
             onChange={value => handleDropdownQuestion(value, field.id)}
           />
         );
