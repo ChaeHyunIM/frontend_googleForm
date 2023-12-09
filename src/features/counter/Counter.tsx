@@ -2,9 +2,12 @@ import { useState } from 'react';
 
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { decrement, increment, incrementByAmount, incrementAsync, incrementIfOdd, selectCount } from './counterSlice';
+import { addFormField } from './formSlice';
 import styles from './Counter.module.css';
 import FormTitle from '../../components/organisms/FormTitle';
 import FormBox from '../../components/organisms/FormBox';
+import Button from '@mui/material/Button';
+import { generateStringId } from '../../utils/generateId';
 
 export function CreateFormPage() {
   const count = useAppSelector(selectCount);
@@ -12,10 +15,21 @@ export function CreateFormPage() {
   const [incrementAmount, setIncrementAmount] = useState('2');
 
   const incrementValue = Number(incrementAmount) || 0;
+  const formFields = useAppSelector(state => state.formField);
+  console.log('formFields', formFields);
+  const formFieldAddHandler = () => {
+    dispatch(
+      addFormField({
+        id: generateStringId(),
+        type: '단답형',
+        label: '',
+      })
+    );
+  };
 
   return (
     <div>
-      <div className={styles.row}>
+      {/* <div className={styles.row}>
         <button className={styles.button} aria-label="Decrement value" onClick={() => dispatch(decrement())}>
           -
         </button>
@@ -40,8 +54,11 @@ export function CreateFormPage() {
         <button className={styles.button} onClick={() => dispatch(incrementIfOdd(incrementValue))}>
           Add If Odd
         </button>
-      </div>
-      <FormBox />
+      </div> */}
+      {formFields.map(formField => (
+        <FormBox key={formField.id} id={formField.id} />
+      ))}
+      <Button onClick={formFieldAddHandler}>필드추가</Button>
     </div>
   );
   // return (
