@@ -15,9 +15,16 @@ export default function FormTitle() {
   };
 
   return (
-    <Box sx={{ position: 'relative', p: '22px 0 24px 0', borderRadius: '8px', border: '1px solid rgb(218, 220, 224)' }}>
-      <Box
-        sx={{
+    <div
+      css={{
+        position: 'relative',
+        padding: '22px 0 24px 0',
+        borderRadius: '8px',
+        border: '1px solid rgb(218, 220, 224)',
+      }}
+    >
+      <div
+        css={{
           width: '100%',
           height: '10px',
           position: 'absolute',
@@ -26,11 +33,11 @@ export default function FormTitle() {
         }}
       >
         {' '}
-      </Box>
+      </div>
       <Stack spacing={1}>
         <Input inputSize="big" value={title} onChange={handleTitleChange} />
         <Input placeholder="설문지 설명" value={description} onChange={handleDescriptionChange} />
       </Stack>
-    </Box>
+    </div>
   );
 }
