@@ -21,12 +21,18 @@ export interface option {
   label: string;
 }
 
+export interface FormResponseState {
+  [key: FormFieldState['id']]: string | string[];
+}
+
 const initialFormHeaderState: FormHeaderState = {
   title: '제목 없는 설문지',
   description: '',
 };
 
 const initialFormFieldState: FormFieldState[] = [];
+
+const initialFormResponseState: FormResponseState = {};
 
 const formHeaderSlice = createSlice({
   name: 'formHeader',
@@ -70,11 +76,28 @@ const formFieldsSlice = createSlice({
   },
 });
 
+const formResponseSlice = createSlice({
+  name: 'formResponse',
+  initialState: initialFormResponseState,
+  reducers: {
+    answerQuestion: (
+      state,
+      action: PayloadAction<{ id: FormFieldState['id']; response: FormResponseState[FormFieldState['id']] }>
+    ) => {
+      const { id, response } = action.payload;
+      state[id] = response;
+    },
+  },
+});
+
 export const { editFormHeader } = formHeaderSlice.actions;
 
 export const { addFormField, editFormField, deleteFormField, reorderFormField } = formFieldsSlice.actions;
+
+export const { answerQuestion } = formResponseSlice.actions;
 
 export const selectFormFields = (state: RootState) => state.formField;
 
 export const { reducer: formHeaderReducer } = formHeaderSlice;
 export const { reducer: formFieldReducer } = formFieldsSlice;
+export const { reducer: formResponseReducer } = formResponseSlice;
