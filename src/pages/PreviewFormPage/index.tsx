@@ -12,7 +12,6 @@ export default function PreviewFormPage() {
   const dispatch = useAppDispatch();
   const formFields = useAppSelector(state => state.formField);
   const formHeader = useAppSelector(state => state.formHeader);
-  const formResponse = useAppSelector(state => state.formResponse);
 
   return (
     <Stack>
@@ -20,6 +19,7 @@ export default function PreviewFormPage() {
         <Stack spacing={1}>
           <Typography sx={{ fontSize: '36px', fontWeight: 500 }}>{formHeader.title}</Typography>
           {formHeader.description && <Typography sx={{ fontSize: '16px' }}>{formHeader.description}</Typography>}
+          <Typography sx={{ color: 'red' }}>* 표시는 필수 질문임</Typography>
         </Stack>
       </TitleBox>
       <Stack spacing={4}>

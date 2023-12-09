@@ -98,7 +98,10 @@ export default function PreviewQuestion({ id }: { id: FormFieldState['id'] }) {
 
   return (
     <Stack>
-      {field.label}
+      <div>
+        <span>{field.label}</span>
+        <span style={{ color: 'red', marginLeft: '2px' }}>{field.isRequired ? '*' : ''}</span>
+      </div>
       {renderQuestionContent(field)}
     </Stack>
   );
