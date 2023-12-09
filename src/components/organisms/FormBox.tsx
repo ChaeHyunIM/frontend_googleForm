@@ -12,9 +12,10 @@ import { useState } from 'react';
 // import RadioField from '../molecules/Question/Radio';
 // import CheckBox from '../molecules/Question/Checkbox';
 import Question from '../molecules/Question';
-import { FormFieldsState, editFormField } from '../../features/counter/formSlice';
+import { FormFieldsState, addFormField, deleteFormField, editFormField } from '../../features/counter/formSlice';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { generateNumberId } from '../../utils/generateId';
+import { generateNumberId, generateStringId } from '../../utils/generateId';
+import IconButton from '@mui/material/IconButton';
 
 const questionTypes = ['단답형', '장문형', '객관식 질문', '체크박스', '드롭다운'];
 
@@ -22,6 +23,11 @@ const FormBox = ({ id }: { id: FormFieldsState['id'] }) => {
   const formFields = useAppSelector(state => state.formField);
   const dispatch = useAppDispatch();
   const field = formFields.find(field => field.id === id) ?? null;
+
+  const handleFieldLabelChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!field) return;
+    dispatch(editFormField({ ...field, label: e.target.value }));
+  };
 
   const handleFieldTypeChange = (value: FormFieldsState['type']) => {
     if (!field) return;
@@ -37,6 +43,20 @@ const FormBox = ({ id }: { id: FormFieldsState['id'] }) => {
         })
       );
     }
+  };
+  const duplicateField = () => {
+    if (!field) return;
+    dispatch(
+      addFormField({
+        ...field,
+        id: generateStringId(),
+      })
+    );
+  };
+
+  const deleteField = () => {
+    if (!field) return;
+    dispatch(deleteFormField(field.id));
   };
   // const fieldByType = (type: string) => {
   //   switch (type) {
@@ -58,7 +78,13 @@ const FormBox = ({ id }: { id: FormFieldsState['id'] }) => {
   return (
     <div style={{ border: '1px solid red' }}>
       <Stack direction="row" spacing={2}>
-        <Input variant="filled" inputPadding="16px" sx={{ width: '200px' }} />
+        <Input
+          variant="filled"
+          inputPadding="16px"
+          sx={{ width: '200px' }}
+          value={field?.label}
+          onChange={handleFieldLabelChange}
+        />
         <DropDown
           options={questionTypes}
           value={field?.type || '단답형'}
@@ -71,8 +97,12 @@ const FormBox = ({ id }: { id: FormFieldsState['id'] }) => {
         <Question id={id} />
       </div>
       <Stack direction={'row'} spacing={2} justifyContent={'end'} padding={'0px 40px'} alignItems={'center'}>
-        <ContentCopyIcon />
-        <DeleteOutlineIcon />
+        <IconButton onClick={duplicateField}>
+          <ContentCopyIcon />
+        </IconButton>
+        <IconButton onClick={deleteField}>
+          <DeleteOutlineIcon />
+        </IconButton>
         <Divider orientation="vertical" flexItem />
         <Stack>
           <FormControlLabel control={<Switch defaultChecked />} label="필수" labelPlacement="start" />
