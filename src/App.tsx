@@ -1,8 +1,9 @@
 import { Global, css } from '@emotion/react';
 import { ReactNode } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { CreateFormPage } from './features/counter/Counter';
-import PreviewFormPage from './pages/CreateFormPage/PreviewFormPage';
+// import { CreateFormPage } from './features/counter/Counter';
+import CreateFormPage from './pages/CreateFormPage';
+import PreviewFormPage from './pages/PreviewFormPage';
 
 export default function App() {
   return (
@@ -21,13 +22,13 @@ export default function App() {
           }
         `}
       />
-      {/* <Layout> */}
-      <Routes>
-        <Route path="*" element={<Navigate replace to="/" />} />
-        <Route path="/" element={<CreateFormPage />} />
-        <Route path="/preview" element={<PreviewFormPage />} />
-      </Routes>
-      {/* </Layout> */}
+      <Layout>
+        <Routes>
+          <Route path="*" element={<Navigate replace to="/" />} />
+          <Route path="/" element={<CreateFormPage />} />
+          <Route path="/preview" element={<PreviewFormPage />} />
+        </Routes>
+      </Layout>
     </Router>
   );
 }

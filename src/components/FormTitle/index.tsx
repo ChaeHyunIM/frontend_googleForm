@@ -1,43 +1,32 @@
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Input from '../Input';
-import { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { editFormHeader } from '../../features/counter/formSlice';
+import TitleBox from './TitleBox';
 
 export default function FormTitle() {
-  const [title, setTitle] = useState('제목 없는 설문지');
-  const [description, setDescription] = useState('');
+  const dispatch = useAppDispatch();
+  const formHeader = useAppSelector(state => state.formHeader);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
+    dispatch(editFormHeader({ ...formHeader, title: e.target.value }));
   };
   const handleDescriptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDescription(e.target.value);
+    dispatch(
+      editFormHeader({
+        title: formHeader.title,
+        description: e.target.value,
+      })
+    );
   };
 
   return (
-    <div
-      css={{
-        position: 'relative',
-        padding: '22px 0 24px 0',
-        borderRadius: '8px',
-        border: '1px solid rgb(218, 220, 224)',
-      }}
-    >
-      <div
-        css={{
-          width: '100%',
-          height: '10px',
-          position: 'absolute',
-          top: '1px',
-          backgroundColor: 'rgb(103, 58, 183)',
-        }}
-      >
-        {' '}
-      </div>
+    <TitleBox>
       <Stack spacing={1}>
-        <Input inputSize="big" value={title} onChange={handleTitleChange} />
-        <Input placeholder="설문지 설명" value={description} onChange={handleDescriptionChange} />
+        <Input inputSize="big" value={formHeader.title} onChange={handleTitleChange} />
+        <Input placeholder="설문지 설명" value={formHeader.description} onChange={handleDescriptionChange} />
       </Stack>
-    </div>
+    </TitleBox>
   );
 }

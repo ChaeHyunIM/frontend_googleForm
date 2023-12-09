@@ -2,12 +2,12 @@ import Input from '../Input';
 import { Checkbox, Radio, FormGroup, FormControlLabel, Button, Stack } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { FormFieldsState, editFormField } from '../../features/counter/formSlice';
+import { FormFieldState, editFormField } from '../../features/counter/formSlice';
 import { generateNumberId } from '../../utils/generateId';
 import Drag from '../Drag';
 import Drop from '../Drop';
 
-export default function Content({ id }: { id: FormFieldsState['id'] }) {
+export default function Content({ id }: { id: FormFieldState['id'] }) {
   const formFields = useAppSelector(state => state.formField);
   const field = formFields.find(field => field.id === id) ?? null;
   const dispatch = useAppDispatch();

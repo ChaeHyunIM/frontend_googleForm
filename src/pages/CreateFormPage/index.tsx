@@ -10,7 +10,7 @@ import Drag from '../../components/Drag';
 import Drop from '../../components/Drop';
 import { useNavigate } from 'react-router-dom';
 
-export function CreateFormPage() {
+export default function CreateFormPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 

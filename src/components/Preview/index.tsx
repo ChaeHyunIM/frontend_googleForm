@@ -6,12 +6,13 @@ import Checkbox from '@mui/material/Checkbox';
 import Input from '../Input';
 import Dropdown from '../Dropdown';
 import FormGroup from '@mui/material/FormGroup';
-import { FormFieldsState } from 'features/counter/formSlice';
+import { FormFieldState } from 'features/counter/formSlice';
+import TitleBox from '../FormTitle/TitleBox';
 
 export default function Preview() {
   const formFields = useAppSelector(state => state.formField);
-  console.log('formFields', formFields);
-  const renderQuestionContent = (field: FormFieldsState) => {
+  const formHeader = useAppSelector(state => state.formHeader);
+  const renderQuestionContent = (field: FormFieldState) => {
     switch (field.type) {
       case '단답형':
       case '장문형':
@@ -42,17 +43,25 @@ export default function Preview() {
   };
 
   return (
-    <FormGroup>
-      <Stack spacing={4}>
-        {formFields.map(field => {
-          return (
-            <Stack>
-              {field.label}
-              {renderQuestionContent(field)}
-            </Stack>
-          );
-        })}
-      </Stack>
-    </FormGroup>
+    <Stack>
+      <TitleBox>
+        <Stack spacing={1}>
+          <h1>{formHeader.title}</h1>
+          {formHeader.description && <p>{formHeader.description}</p>}
+        </Stack>
+      </TitleBox>
+      <FormGroup>
+        <Stack spacing={4}>
+          {formFields.map(field => {
+            return (
+              <Stack>
+                {field.label}
+                {renderQuestionContent(field)}
+              </Stack>
+            );
+          })}
+        </Stack>
+      </FormGroup>
+    </Stack>
   );
 }

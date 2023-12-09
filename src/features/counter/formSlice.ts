@@ -1,7 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 
-export interface FormFieldsState {
+export interface FormHeaderState {
+  title: string;
+  description?: string;
+}
+
+export interface FormFieldState {
   id: string;
   type: FormFieldType;
   label: string;
@@ -16,16 +21,33 @@ export interface option {
   label: string;
 }
 
-const initialState: FormFieldsState[] = [];
+const initialFormHeaderState: FormHeaderState = {
+  title: '제목 없는 설문지',
+  description: '',
+};
+
+const initialFormFieldState: FormFieldState[] = [];
+
+const formHeaderSlice = createSlice({
+  name: 'formHeader',
+  initialState: initialFormHeaderState,
+  reducers: {
+    editFormHeader: (state, action: PayloadAction<FormHeaderState>) => {
+      const { title = '제목 없는 설문지', description = '' } = action.payload;
+      state.title = title;
+      state.description = description;
+    },
+  },
+});
 
 const formFieldsSlice = createSlice({
   name: 'formField',
-  initialState,
+  initialState: initialFormFieldState,
   reducers: {
-    addFormField: (state, action: PayloadAction<FormFieldsState>) => {
+    addFormField: (state, action: PayloadAction<FormFieldState>) => {
       state.push(action.payload);
     },
-    editFormField: (state, action: PayloadAction<FormFieldsState>) => {
+    editFormField: (state, action: PayloadAction<FormFieldState>) => {
       const { id, type, label, options, isRequired } = action.payload;
       const itemIndex = state.findIndex(item => item.id === id);
 
@@ -48,8 +70,11 @@ const formFieldsSlice = createSlice({
   },
 });
 
+export const { editFormHeader } = formHeaderSlice.actions;
+
 export const { addFormField, editFormField, deleteFormField, reorderFormField } = formFieldsSlice.actions;
 
 export const selectFormFields = (state: RootState) => state.formField;
 
-export default formFieldsSlice.reducer;
+export const { reducer: formHeaderReducer } = formHeaderSlice;
+export const { reducer: formFieldReducer } = formFieldsSlice;

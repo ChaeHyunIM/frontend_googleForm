@@ -7,14 +7,14 @@ import DropDown from '../Dropdown';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import Content from './Content';
-import { FormFieldsState, addFormField, deleteFormField, editFormField } from '../../features/counter/formSlice';
+import { FormFieldState, addFormField, deleteFormField, editFormField } from '../../features/counter/formSlice';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { generateNumberId, generateStringId } from '../../utils/generateId';
 import IconButton from '@mui/material/IconButton';
 
 const questionTypes = ['단답형', '장문형', '객관식 질문', '체크박스', '드롭다운'];
 
-export default function Question({ id }: { id: FormFieldsState['id'] }) {
+export default function Question({ id }: { id: FormFieldState['id'] }) {
   const formFields = useAppSelector(state => state.formField);
   const dispatch = useAppDispatch();
   const field = formFields.find(field => field.id === id) ?? null;
@@ -24,7 +24,7 @@ export default function Question({ id }: { id: FormFieldsState['id'] }) {
     dispatch(editFormField({ ...field, label: e.target.value }));
   };
 
-  const handleFieldTypeChange = (value: FormFieldsState['type']) => {
+  const handleFieldTypeChange = (value: FormFieldState['type']) => {
     if (!field) return;
     if (value === '단답형' || value === '장문형') {
       dispatch(editFormField({ ...field, type: value, options: [] }));
@@ -73,7 +73,7 @@ export default function Question({ id }: { id: FormFieldsState['id'] }) {
           options={questionTypes}
           value={field?.type || '단답형'}
           onChange={(value: string) => {
-            handleFieldTypeChange(value as FormFieldsState['type']);
+            handleFieldTypeChange(value as FormFieldState['type']);
           }}
         />
       </Stack>
