@@ -8,7 +8,7 @@ interface DropdownProps {
   onChange: (value: string) => void;
 }
 
-const Dropdown = ({ label, options, value, onChange }: DropdownProps) => {
+const Dropdown = ({ label = '', options, value, onChange }: DropdownProps) => {
   return (
     <FormControl>
       {label ? <InputLabel>{label}</InputLabel> : null}

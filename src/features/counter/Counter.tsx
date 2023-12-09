@@ -11,8 +11,10 @@ import Question from '../../components/Question';
 import { reorderFormField } from './formSlice';
 import Drag from '../../components/Drag';
 import Drop from '../../components/Drop';
+import { useNavigate } from 'react-router-dom';
 
 export function CreateFormPage() {
+  const navigate = useNavigate();
   const count = useAppSelector(selectCount);
   const dispatch = useAppDispatch();
   const [incrementAmount, setIncrementAmount] = useState('2');
@@ -25,6 +27,7 @@ export function CreateFormPage() {
         id: generateStringId(),
         type: '단답형',
         label: '',
+        isRequired: false,
       })
     );
   };
@@ -75,6 +78,13 @@ export function CreateFormPage() {
         ))}
       </Drop>
       <Button onClick={formFieldAddHandler}>필드추가</Button>
+      <Button
+        onClick={() => {
+          navigate('/preview');
+        }}
+      >
+        미리보기
+      </Button>
     </div>
   );
   // return (

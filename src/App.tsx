@@ -1,39 +1,41 @@
 import { Global, css } from '@emotion/react';
 import { ReactNode } from 'react';
-import { Navigate, Routes as ReactRouterRoutes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { CreateFormPage } from './features/counter/Counter';
+import PreviewFormPage from './pages/CreateFormPage/PreviewFormPage';
 
-// export default function App() {
-//   return (
-//     <>
-//       <Global
-//         styles={css`
-//           h1,
-//           h2,
-//           h3,
-//           h4,
-//           h5,
-//           h6 {
-//             font-size: 1em;
-//             font-weight: normal;
-//             margin: 0; /* or ‘0 0 1em’ if you’re so inclined */
-//           }
-//         `}
-//       />
-//       <Layout>
-//         <ReactRouterRoutes>
-//           <Route path="*" element={<Navigate replace to="/" />} />
-//           <Route path="/" element={<CreateFormPage />} />
-//         </ReactRouterRoutes>
-//       </Layout>
-//     </>
-//   );
-// }
 export default function App() {
-  // return <div>hello how are you</div>;
-  // return <Counter />;
-  return <CreateFormPage />;
+  return (
+    <Router>
+      <Global
+        styles={css`
+          h1,
+          h2,
+          h3,
+          h4,
+          h5,
+          h6 {
+            font-size: 1em;
+            font-weight: normal;
+            margin: 0; /* or ‘0 0 1em’ if you’re so inclined */
+          }
+        `}
+      />
+      {/* <Layout> */}
+      <Routes>
+        <Route path="*" element={<Navigate replace to="/" />} />
+        <Route path="/" element={<CreateFormPage />} />
+        <Route path="/preview" element={<PreviewFormPage />} />
+      </Routes>
+      {/* </Layout> */}
+    </Router>
+  );
 }
+// export default function App() {
+//   // return <div>hello how are you</div>;
+//   // return <Counter />;
+//   return <CreateFormPage />;
+// }
 
 function Layout({ children }: { children: ReactNode }) {
   return (
