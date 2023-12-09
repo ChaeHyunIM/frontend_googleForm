@@ -1,6 +1,6 @@
 import React from 'react';
-import FormBox from '../../components/organisms/FormBox';
-import FormTitle from '../../components/organisms/FormTitle';
+import FormBox from '../../components/Question/Content';
+import FormTitle from '../../components/FormTitle/FormTitle';
 
 export function CreateFormPage() {
   return (

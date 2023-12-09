@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import Input from '../atoms/Input';
+import Input from '../Input';
 import { useState } from 'react';
 
 export default function FormTitle() {

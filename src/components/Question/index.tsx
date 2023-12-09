@@ -1,9 +1,9 @@
-import Input from '../../atoms/Input';
+import Input from '../Input';
 import { Checkbox, Radio, FormGroup, FormControlLabel, Button } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { FormFieldsState, editFormField } from '../../../features/counter/formSlice';
-import { generateNumberId } from '../../../utils/generateId';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { FormFieldsState, editFormField } from '../../features/counter/formSlice';
+import { generateNumberId } from '../../utils/generateId';
 
 export default function Question({ id }: { id: FormFieldsState['id'] }) {
   const formFields = useAppSelector(state => state.formField);

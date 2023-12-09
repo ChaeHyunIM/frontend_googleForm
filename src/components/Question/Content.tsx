@@ -1,17 +1,12 @@
 import Stack from '@mui/material/Stack';
-import Input from '../atoms/Input';
+import Input from '../Input';
 import Divider from '@mui/material/Divider';
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import DropDown from '../atoms/Dropdown';
+import DropDown from '../Dropdown';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import { useState } from 'react';
-// import ShortAnswer from '../molecules/Question/ShortAnswer';
-// import LongAnswer from '../molecules/Question/LongAnswer';
-// import RadioField from '../molecules/Question/Radio';
-// import CheckBox from '../molecules/Question/Checkbox';
-import Question from '../molecules/Question';
+import Question from '.';
 import { FormFieldsState, addFormField, deleteFormField, editFormField } from '../../features/counter/formSlice';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { generateNumberId, generateStringId } from '../../utils/generateId';
@@ -58,22 +53,6 @@ const FormBox = ({ id }: { id: FormFieldsState['id'] }) => {
     if (!field) return;
     dispatch(deleteFormField(field.id));
   };
-  // const fieldByType = (type: string) => {
-  //   switch (type) {
-  //     case '단답형':
-  //       return <ShortAnswer />;
-  //     case '장문형':
-  //       return <LongAnswer />;
-  //     case '객관식 질문':
-  //       return <RadioField options={options} />;
-  //     case '체크박스':
-  //       return <CheckBox options={options} />;
-  //     case '드롭다운':
-  //       return <DropDown options={options} value={selectedOption} onChange={handleOptionChange} />;
-  //     default:
-  //       return <Input variant="filled" inputPadding="16px" sx={{ width: '200px' }} />;
-  //   }
-  // };
 
   return (
     <div style={{ border: '1px solid red' }}>

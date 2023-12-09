@@ -4,8 +4,8 @@ import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { decrement, increment, incrementByAmount, incrementAsync, incrementIfOdd, selectCount } from './counterSlice';
 import { addFormField } from './formSlice';
 import styles from './Counter.module.css';
-import FormTitle from '../../components/organisms/FormTitle';
-import FormBox from '../../components/organisms/FormBox';
+import FormTitle from '../../components/FormTitle/FormTitle';
+import FormBox from '../../components/Question/Content';
 import Button from '@mui/material/Button';
 import { generateStringId } from '../../utils/generateId';
 
