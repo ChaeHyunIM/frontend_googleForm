@@ -1,75 +1,92 @@
+import Stack from '@mui/material/Stack';
 import Input from '../Input';
-import { Checkbox, Radio, FormGroup, FormControlLabel, Button } from '@mui/material';
-import ClearIcon from '@mui/icons-material/Clear';
+import Divider from '@mui/material/Divider';
+import Switch from '@mui/material/Switch';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import DropDown from '../Dropdown';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import Content from './Content';
+import { FormFieldsState, addFormField, deleteFormField, editFormField } from '../../features/counter/formSlice';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { FormFieldsState, editFormField } from '../../features/counter/formSlice';
-import { generateNumberId } from '../../utils/generateId';
+import { generateNumberId, generateStringId } from '../../utils/generateId';
+import IconButton from '@mui/material/IconButton';
+
+const questionTypes = ['단답형', '장문형', '객관식 질문', '체크박스', '드롭다운'];
 
 export default function Question({ id }: { id: FormFieldsState['id'] }) {
   const formFields = useAppSelector(state => state.formField);
-  const field = formFields.find(field => field.id === id) ?? null;
   const dispatch = useAppDispatch();
+  const field = formFields.find(field => field.id === id) ?? null;
 
-  const handleOptionInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (field) {
-      const updatedOptions = field.options?.map(option => {
-        if (option.id === e.target.id) {
-          return { ...option, label: e.target.value };
-        }
-        return option;
-      });
-
-      dispatch(editFormField({ ...field, options: updatedOptions }));
-    }
+  const handleFieldLabelChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!field) return;
+    dispatch(editFormField({ ...field, label: e.target.value }));
   };
 
-  const handleAddOption = () => {
-    if (field && field.options) {
+  const handleFieldTypeChange = (value: FormFieldsState['type']) => {
+    if (!field) return;
+    if (value === '단답형' || value === '장문형') {
+      dispatch(editFormField({ ...field, type: value, options: [] }));
+    } else {
+      const options = field.options?.length ? [...field.options] : [{ id: generateNumberId(), label: '옵션 1' }];
       dispatch(
         editFormField({
           ...field,
-          options: [...field.options, { id: generateNumberId(), label: `옵션 ${field.options.length + 1}` }],
+          type: value,
+          options,
         })
       );
     }
   };
-
-  const handleDeleteOption = (id: string) => {
-    if (field && field.options) {
-      dispatch(editFormField({ ...field, options: field.options.filter(option => option.id !== id) }));
-    }
+  const duplicateField = () => {
+    if (!field) return;
+    dispatch(
+      addFormField({
+        ...field,
+        id: generateStringId(),
+      })
+    );
   };
 
-  switch (field?.type) {
-    case '단답형':
-    case '장문형':
-      return <Input inputProps={{ readOnly: true }} placeholder={`${field?.type} 텍스트`} />;
-    case '객관식 질문':
-    case '체크박스':
-    case '드롭다운':
-      return (
-        <FormGroup>
-          {field?.options?.map((option, index) => (
-            <FormControlLabel
-              key={option.id}
-              control={
-                <>
-                  {field?.type === '객관식 질문' && <Radio />}
-                  {field?.type === '체크박스' && <Checkbox />}
-                  {field?.type === '드롭다운' && <div>{index}</div>}
-                  <Input id={option.id} value={option.label} onChange={handleOptionInputChange} />
-                  <ClearIcon onClick={() => handleDeleteOption(option.id)} />
-                </>
-              }
-              label={''}
-            />
-          ))}
-          <Button sx={{ width: '200px', height: '40px' }} onClick={handleAddOption}>
-            옵션추가
-          </Button>
-        </FormGroup>
-      );
-    default:
-      return null;
-  }
+  const deleteField = () => {
+    if (!field) return;
+    dispatch(deleteFormField(field.id));
+  };
+
+  return (
+    <div style={{ border: '1px solid red' }}>
+      <Stack direction="row" spacing={2}>
+        <Input
+          variant="filled"
+          inputPadding="16px"
+          sx={{ width: '200px' }}
+          value={field?.label}
+          onChange={handleFieldLabelChange}
+        />
+        <DropDown
+          options={questionTypes}
+          value={field?.type || '단답형'}
+          onChange={(value: string) => {
+            handleFieldTypeChange(value as FormFieldsState['type']);
+          }}
+        />
+      </Stack>
+      <div>
+        <Content id={id} />
+      </div>
+      <Stack direction={'row'} spacing={2} justifyContent={'end'} padding={'0px 40px'} alignItems={'center'}>
+        <IconButton onClick={duplicateField}>
+          <ContentCopyIcon />
+        </IconButton>
+        <IconButton onClick={deleteField}>
+          <DeleteOutlineIcon />
+        </IconButton>
+        <Divider orientation="vertical" flexItem />
+        <Stack>
+          <FormControlLabel control={<Switch defaultChecked />} label="필수" labelPlacement="start" />
+        </Stack>
+      </Stack>
+    </div>
+  );
 }

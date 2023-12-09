@@ -4,10 +4,13 @@ import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { decrement, increment, incrementByAmount, incrementAsync, incrementIfOdd, selectCount } from './counterSlice';
 import { addFormField } from './formSlice';
 import styles from './Counter.module.css';
-import FormTitle from '../../components/FormTitle/FormTitle';
-import FormBox from '../../components/Question/Content';
+import FormTitle from '../../components/FormTitle';
 import Button from '@mui/material/Button';
 import { generateStringId } from '../../utils/generateId';
+import Question from '../../components/Question';
+import { reorderFormField } from './formSlice';
+import Drag from '../../components/Drag';
+import Drop from '../../components/Drop';
 
 export function CreateFormPage() {
   const count = useAppSelector(selectCount);
@@ -16,7 +19,6 @@ export function CreateFormPage() {
 
   const incrementValue = Number(incrementAmount) || 0;
   const formFields = useAppSelector(state => state.formField);
-  console.log('formFields', formFields);
   const formFieldAddHandler = () => {
     dispatch(
       addFormField({
@@ -25,6 +27,15 @@ export function CreateFormPage() {
         label: '',
       })
     );
+  };
+
+  const handleDragEnd = (result: any) => {
+    if (!result.destination) return;
+    const {
+      source: { index: startIndex },
+      destination: { index: endIndex },
+    } = result;
+    dispatch(reorderFormField({ startIndex, endIndex }));
   };
 
   return (
@@ -55,9 +66,14 @@ export function CreateFormPage() {
           Add If Odd
         </button>
       </div> */}
-      {formFields.map(formField => (
-        <FormBox key={formField.id} id={formField.id} />
-      ))}
+      <FormTitle />
+      <Drop onDragEnd={handleDragEnd}>
+        {formFields.map((formField, index) => (
+          <Drag id={formField.id} key={formField.id} index={index}>
+            <Question key={formField.id} id={formField.id} />
+          </Drag>
+        ))}
+      </Drop>
       <Button onClick={formFieldAddHandler}>필드추가</Button>
     </div>
   );
