@@ -54,6 +54,11 @@ export default function Question({ id }: { id: FormFieldsState['id'] }) {
     dispatch(deleteFormField(field.id));
   };
 
+  const handleIsRequiredChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!field) return;
+    dispatch(editFormField({ ...field, isRequired: e.target.checked }));
+  };
+
   return (
     <div style={{ border: '1px solid red' }}>
       <Stack direction="row" spacing={2}>
@@ -84,7 +89,11 @@ export default function Question({ id }: { id: FormFieldsState['id'] }) {
         </IconButton>
         <Divider orientation="vertical" flexItem />
         <Stack>
-          <FormControlLabel control={<Switch defaultChecked />} label="필수" labelPlacement="start" />
+          <FormControlLabel
+            control={<Switch onChange={handleIsRequiredChange} />}
+            label="필수"
+            labelPlacement="start"
+          />
         </Stack>
       </Stack>
     </div>

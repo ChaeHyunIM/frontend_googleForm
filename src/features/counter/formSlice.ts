@@ -5,6 +5,7 @@ export interface FormFieldsState {
   id: string;
   type: FormFieldType;
   label: string;
+  isRequired: boolean;
   options?: option[];
 }
 
@@ -25,11 +26,11 @@ const formFieldsSlice = createSlice({
       state.push(action.payload);
     },
     editFormField: (state, action: PayloadAction<FormFieldsState>) => {
-      const { id, type, label, options } = action.payload;
+      const { id, type, label, options, isRequired } = action.payload;
       const itemIndex = state.findIndex(item => item.id === id);
 
       if (itemIndex >= 0) {
-        state[itemIndex] = { id, type, label, options };
+        state[itemIndex] = { id, type, label, options, isRequired };
       }
     },
     deleteFormField: (state, action: PayloadAction<string>) => {
