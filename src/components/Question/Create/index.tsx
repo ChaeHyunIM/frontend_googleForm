@@ -34,7 +34,7 @@ export default function Question({ id }: { id: FormFieldState['id'] }) {
         editFormField({
           ...field,
           type: value,
-          options,
+          options: value === '드롭다운' ? options?.filter(option => !option?.id.includes('_기타')) ?? [] : options,
         })
       );
     }

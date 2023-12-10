@@ -10,6 +10,7 @@ import Drop from '../../Drop';
 export default function Content({ id }: { id: FormFieldState['id'] }) {
   const formFields = useAppSelector(state => state.formField);
   const field = formFields.find(field => field.id === id) ?? null;
+  const isEtcOptionExist = field?.options?.some(option => option.id.includes('_기타'));
   const dispatch = useAppDispatch();
 
   const handleOptionInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,6 +32,16 @@ export default function Content({ id }: { id: FormFieldState['id'] }) {
         editFormField({
           ...field,
           options: [...field.options, { id: generateNumberId(), label: `옵션 ${field.options.length + 1}` }],
+        })
+      );
+    }
+  };
+  const handleAddETCOption = () => {
+    if (field && field.options) {
+      dispatch(
+        editFormField({
+          ...field,
+          options: [...field.options, { id: `${generateNumberId()}_기타`, label: '' }],
         })
       );
     }
@@ -66,10 +77,12 @@ export default function Content({ id }: { id: FormFieldState['id'] }) {
                   key={option.id}
                   control={
                     <>
-                      {field?.type === '객관식 질문' && <Radio />}
-                      {field?.type === '체크박스' && <Checkbox />}
-                      {field?.type === '드롭다운' && <div>{index}</div>}
-                      <Input id={option.id} value={option.label} onChange={handleOptionInputChange} />
+                      {field?.type === '객관식 질문' && <Radio checked={false} />}
+                      {option.id.includes('_기타') ? (
+                        <Input id={option.id} value={''} inputProps={{ readOnly: true }} placeholder={'기타...'} />
+                      ) : (
+                        <Input id={option.id} value={option.label} onChange={handleOptionInputChange} />
+                      )}
                       <ClearIcon onClick={() => handleDeleteOption(option.id)} />
                     </>
                   }
@@ -81,6 +94,11 @@ export default function Content({ id }: { id: FormFieldState['id'] }) {
           <Button sx={{ width: '200px', height: '40px' }} onClick={handleAddOption}>
             옵션추가
           </Button>
+          {!isEtcOptionExist && (
+            <Button sx={{ width: '200px', height: '40px' }} onClick={handleAddETCOption}>
+              기타옵션추가
+            </Button>
+          )}
         </Drop>
       );
     case '체크박스':
@@ -88,26 +106,37 @@ export default function Content({ id }: { id: FormFieldState['id'] }) {
       return (
         <Drop onDragEnd={handleDragEnd}>
           <FormGroup>
-            {field?.options?.map((option, index) => (
-              <Drag id={option.id} index={index} key={option.id}>
-                <FormControlLabel
-                  key={option.id}
-                  control={
-                    <>
-                      {field?.type === '체크박스' && <Checkbox />}
-                      {field?.type === '드롭다운' && <div>{index}</div>}
-                      <Input id={option.id} value={option.label} onChange={handleOptionInputChange} />
-                      <ClearIcon onClick={() => handleDeleteOption(option.id)} />
-                    </>
-                  }
-                  label={''}
-                />
-              </Drag>
-            ))}
+            {field?.options?.map((option, index) => {
+              return (
+                <Drag id={option.id} index={index} key={option.id}>
+                  <FormControlLabel
+                    key={option.id}
+                    control={
+                      <>
+                        {field?.type === '체크박스' && <Checkbox checked={false} />}
+                        {field?.type === '드롭다운' && <div>{index}</div>}
+                        {field?.type === '체크박스' && option.id.includes('_기타') ? (
+                          <Input id={option.id} value={''} inputProps={{ readOnly: true }} placeholder={'기타...'} />
+                        ) : (
+                          <Input id={option.id} value={option.label} onChange={handleOptionInputChange} />
+                        )}
+                        <ClearIcon onClick={() => handleDeleteOption(option.id)} />
+                      </>
+                    }
+                    label={''}
+                  />
+                </Drag>
+              );
+            })}
           </FormGroup>
           <Button sx={{ width: '200px', height: '40px' }} onClick={handleAddOption}>
             옵션추가
           </Button>
+          {!isEtcOptionExist && field?.type === '체크박스' && (
+            <Button sx={{ width: '200px', height: '40px' }} onClick={handleAddETCOption}>
+              기타옵션추가
+            </Button>
+          )}
         </Drop>
       );
     default:

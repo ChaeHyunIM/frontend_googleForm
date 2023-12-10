@@ -1,6 +1,6 @@
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { answerQuestion } from '../../../features/form/formSlice';
+import { answerQuestion, option } from '../../../features/form/formSlice';
 import Stack from '@mui/material/Stack';
 import Radio from '@mui/material/Radio';
 import Checkbox from '@mui/material/Checkbox';
@@ -9,29 +9,38 @@ import Dropdown from '../../Dropdown';
 import FormGroup from '@mui/material/FormGroup';
 import { FormFieldState } from 'features/form/formSlice';
 import RadioGroup from '@mui/material/RadioGroup';
+import { useState } from 'react';
 
 export default function PreviewQuestion({ id }: { id: FormFieldState['id'] }) {
   const dispatch = useAppDispatch();
   const formFields = useAppSelector(state => state.formField);
   const formResponse = useAppSelector(state => state.formResponse);
   const field = formFields.find(field => field.id === id) ?? null;
+  const [etcValue, setEtcValue] = useState('');
+
+  console.log('formResponse', formResponse);
 
   const handleAnswerQuestion = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(answerQuestion({ id: e.target.id, response: e.target.value }));
   };
 
-  const handleRadioQuestion = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
-    dispatch(answerQuestion({ id, response: e.target.value }));
+  const handleRadioQuestion = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, id: option['id']) => {
+    const isEtc = e.target.id.includes('_기타');
+    if (isEtc) {
+      return dispatch(answerQuestion({ id, response: etcValue }));
+    }
+    return dispatch(answerQuestion({ id, response: e.target.value }));
   };
 
-  const handleCheckBoxQuestion = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
+  const handleCheckBoxQuestion = (e: React.ChangeEvent<HTMLInputElement>, id: option['id']) => {
     let response = formResponse[id] ? (formResponse[id] as string[]) : [];
+    const isEtc = e.target.id.includes('_기타');
     if (e.target.checked) {
-      response = [...response, e.target.value];
+      response = [...response, isEtc ? etcValue : e.target.value];
     } else {
-      response = response.filter(el => el !== e.target.value);
+      response = response.filter(el => el !== (isEtc ? etcValue : e.target.value));
     }
-    dispatch(answerQuestion({ id, response }));
+    return dispatch(answerQuestion({ id, response }));
   };
 
   const handleDropdownQuestion = (value: string, id: string) => {
@@ -50,11 +59,12 @@ export default function PreviewQuestion({ id }: { id: FormFieldState['id'] }) {
               <FormControlLabel
                 key={option.id}
                 control={
-                  <Radio
-                    id={option.id}
-                    value={option.label}
-                    checked={(formResponse[field.id] ?? []).includes(option.label)}
-                  />
+                  <>
+                    <Radio id={option.id} value={option.label} />
+                    {option.id.includes('_기타') && (
+                      <Input onChange={e => setEtcValue(e.target.value)} value={etcValue} placeholder="기타" />
+                    )}
+                  </>
                 }
                 label={option.label}
               />
@@ -69,12 +79,17 @@ export default function PreviewQuestion({ id }: { id: FormFieldState['id'] }) {
                 <FormControlLabel
                   key={option.id}
                   control={
-                    <Checkbox
-                      id={option.id}
-                      value={option.label}
-                      onChange={e => handleCheckBoxQuestion(e, field.id)}
-                      checked={(formResponse[field.id] ?? []).includes(option.label)}
-                    />
+                    <>
+                      <Checkbox
+                        id={option.id}
+                        value={option.label}
+                        onChange={e => handleCheckBoxQuestion(e, field.id)}
+                        checked={(formResponse[field.id] ?? []).includes(option.label || etcValue)}
+                      />
+                      {option.id.includes('_기타') && (
+                        <Input onChange={e => setEtcValue(e.target.value)} placeholder="기타" value={etcValue} />
+                      )}
+                    </>
                   }
                   label={option.label}
                 />
