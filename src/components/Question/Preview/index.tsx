@@ -1,13 +1,13 @@
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { answerQuestion } from '../../../features/counter/formSlice';
+import { answerQuestion } from '../../../features/form/formSlice';
 import Stack from '@mui/material/Stack';
 import Radio from '@mui/material/Radio';
 import Checkbox from '@mui/material/Checkbox';
 import Input from '../../Input';
 import Dropdown from '../../Dropdown';
 import FormGroup from '@mui/material/FormGroup';
-import { FormFieldState } from 'features/counter/formSlice';
+import { FormFieldState } from 'features/form/formSlice';
 import RadioGroup from '@mui/material/RadioGroup';
 
 export default function PreviewQuestion({ id }: { id: FormFieldState['id'] }) {

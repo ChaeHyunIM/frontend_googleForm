@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { addFormField, reorderFormField } from '../../features/counter/formSlice';
+import { addFormField, reorderFormField } from '../../features/form/formSlice';
 import FormTitle from '../../components/FormTitle';
 import Button from '@mui/material/Button';
 import { generateStringId } from '../../utils/generateId';

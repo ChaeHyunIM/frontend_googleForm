@@ -7,7 +7,7 @@ import DropDown from '../../Dropdown';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import Content from './Content';
-import { FormFieldState, addFormField, deleteFormField, editFormField } from '../../../features/counter/formSlice';
+import { FormFieldState, addFormField, deleteFormField, editFormField } from '../../../features/form/formSlice';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { generateNumberId, generateStringId } from '../../../utils/generateId';
 import IconButton from '@mui/material/IconButton';

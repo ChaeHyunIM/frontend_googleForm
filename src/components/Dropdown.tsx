@@ -10,8 +10,6 @@ interface DropdownProps {
 }
 
 const Dropdown = ({ label = '', options, value, onChange, placeholder = '선택하세요' }: DropdownProps) => {
-  console.log('value', value);
-
   return (
     <FormControl>
       {label ? <InputLabel>{label}</InputLabel> : null}
@@ -20,7 +18,6 @@ const Dropdown = ({ label = '', options, value, onChange, placeholder = '선택�
         value={value}
         onChange={e => onChange(e.target.value as string)}
         renderValue={selected => {
-          console.log('selected', selected);
           if (!selected || selected.length === 0 || !value) {
             return <em>{placeholder}</em>;
           }

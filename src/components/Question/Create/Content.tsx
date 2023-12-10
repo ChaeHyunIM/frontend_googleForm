@@ -2,7 +2,7 @@ import Input from '../../Input';
 import { Checkbox, Radio, FormGroup, FormControlLabel, Button, Stack, RadioGroup } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { FormFieldState, editFormField } from '../../../features/counter/formSlice';
+import { FormFieldState, editFormField } from '../../../features/form/formSlice';
 import { generateNumberId } from '../../../utils/generateId';
 import Drag from '../../Drag';
 import Drop from '../../Drop';

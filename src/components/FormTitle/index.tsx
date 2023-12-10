@@ -2,7 +2,7 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Input from '../Input';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { editFormHeader } from '../../features/counter/formSlice';
+import { editFormHeader } from '../../features/form/formSlice';
 import TitleBox from './TitleBox';
 
 export default function FormTitle() {
