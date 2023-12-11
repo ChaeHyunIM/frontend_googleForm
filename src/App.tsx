@@ -1,7 +1,6 @@
 import { Global, css } from '@emotion/react';
 import { ReactNode } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-// import { CreateFormPage } from './features/counter/Counter';
 import CreateFormPage from './pages/CreateFormPage';
 import PreviewFormPage from './pages/PreviewFormPage';
 import ResultPage from './pages/ResultPage';
@@ -34,11 +33,6 @@ export default function App() {
     </Router>
   );
 }
-// export default function App() {
-//   // return <div>hello how are you</div>;
-//   // return <Counter />;
-//   return <CreateFormPage />;
-// }
 
 function Layout({ children }: { children: ReactNode }) {
   return (

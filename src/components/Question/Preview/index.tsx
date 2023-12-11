@@ -10,6 +10,7 @@ import FormGroup from '@mui/material/FormGroup';
 import { FormFieldState } from 'features/form/formSlice';
 import RadioGroup from '@mui/material/RadioGroup';
 import { useState } from 'react';
+import { Grid } from '@mui/material';
 
 export default function PreviewQuestion({ id }: { id: FormFieldState['id'] }) {
   const dispatch = useAppDispatch();
@@ -17,8 +18,6 @@ export default function PreviewQuestion({ id }: { id: FormFieldState['id'] }) {
   const formResponse = useAppSelector(state => state.formResponse);
   const field = formFields.find(field => field.id === id) ?? null;
   const [etcValue, setEtcValue] = useState('');
-
-  console.log('formResponse', formResponse);
 
   const handleAnswerQuestion = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(answerQuestion({ id: e.target.id, response: e.target.value }));
@@ -112,7 +111,7 @@ export default function PreviewQuestion({ id }: { id: FormFieldState['id'] }) {
   if (!field) return null;
 
   return (
-    <Stack>
+    <Stack spacing={2} sx={{ border: '1px solid black', borderRadius: '8px', padding: '20px' }}>
       <div>
         <span>{field.label}</span>
         <span style={{ color: 'red', marginLeft: '2px' }}>{field.isRequired ? '*' : ''}</span>

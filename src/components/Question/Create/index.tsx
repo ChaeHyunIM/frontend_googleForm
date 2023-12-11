@@ -60,7 +60,7 @@ export default function Question({ id }: { id: FormFieldState['id'] }) {
   };
 
   return (
-    <div style={{ border: '1px solid red' }}>
+    <Stack sx={{ border: '1px solid black', borderRadius: '8px', padding: '20px' }} spacing={1}>
       <Stack direction="row" spacing={2}>
         <Input
           variant="filled"
@@ -96,6 +96,6 @@ export default function Question({ id }: { id: FormFieldState['id'] }) {
           />
         </Stack>
       </Stack>
-    </div>
+    </Stack>
   );
 }

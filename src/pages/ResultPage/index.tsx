@@ -1,5 +1,7 @@
+import Grid from '@mui/material/Grid';
 import { useAppSelector } from '../../app/hooks';
 import { DataGrid } from '@mui/x-data-grid';
+import { Typography } from '@mui/material';
 
 export default function ResultPage() {
   const formFields = useAppSelector(state => state.formField);
@@ -39,10 +41,16 @@ export default function ResultPage() {
   });
 
   return (
-    <div>
-      <h1>{formHeader.title}</h1>
-      <h2>{formHeader.description}</h2>
-      <DataGrid rows={rows} columns={columns} />
-    </div>
+    <Grid container justifyContent={'center'} alignItems={'center'} sx={{ height: '100vh' }}>
+      <Grid item xs={10}>
+        <Typography variant="h4" sx={{ py: '10px' }}>
+          {formHeader.title}
+        </Typography>
+        <Typography variant="h5" sx={{ py: '10px' }}>
+          {formHeader.description}
+        </Typography>
+        <DataGrid rows={rows} columns={columns} />
+      </Grid>
+    </Grid>
   );
 }

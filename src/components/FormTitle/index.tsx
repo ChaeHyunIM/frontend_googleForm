@@ -23,7 +23,7 @@ export default function FormTitle() {
 
   return (
     <TitleBox>
-      <Stack spacing={1}>
+      <Stack spacing={1} sx={{ px: '20px' }}>
         <Input inputSize="big" value={formHeader.title} onChange={handleTitleChange} />
         <Input placeholder="설문지 설명" value={formHeader.description} onChange={handleDescriptionChange} />
       </Stack>
