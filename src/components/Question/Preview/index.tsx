@@ -10,7 +10,6 @@ import FormGroup from '@mui/material/FormGroup';
 import { FormFieldState } from 'features/form/formSlice';
 import RadioGroup from '@mui/material/RadioGroup';
 import { useState } from 'react';
-import { Grid } from '@mui/material';
 
 export default function PreviewQuestion({ id }: { id: FormFieldState['id'] }) {
   const dispatch = useAppDispatch();
@@ -34,11 +33,18 @@ export default function PreviewQuestion({ id }: { id: FormFieldState['id'] }) {
   const handleCheckBoxQuestion = (e: React.ChangeEvent<HTMLInputElement>, id: option['id']) => {
     let response = formResponse[id] ? (formResponse[id] as string[]) : [];
     const isEtc = e.target.id.includes('_기타');
+    const filterEtc = response.filter(el => field?.options?.map(el => el.label).includes(el));
+
     if (e.target.checked) {
-      response = [...response, isEtc ? etcValue : e.target.value];
+      response = isEtc ? [...filterEtc, etcValue] : [...response, e.target.value];
     } else {
-      response = response.filter(el => el !== (isEtc ? etcValue : e.target.value));
+      if (isEtc) {
+        response = filterEtc;
+      } else {
+        response = response.filter(el => el !== e.target.value);
+      }
     }
+
     return dispatch(answerQuestion({ id, response }));
   };
 
