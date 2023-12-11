@@ -1,27 +1,17 @@
-# vite-template-redux
+# 구글 설문조사 만들기 과제
 
-Uses [Vite](https://vitejs.dev/), [Vitest](https://vitest.dev/), and [React Testing Library](https://github.com/testing-library/react-testing-library) to create a modern [React](https://react.dev/) app compatible with [Create React App](https://create-react-app.dev/)
+## 구현하지 못한 것
 
-```sh
-npx degit reduxjs/redux-templates/packages/vite-template-redux my-app
-```
+- Drag indicator에만 DND 적용하기(react-beautiful-dnd 사용)
+  - 단순 해당 영역에 대한 DND는 가능
+- 질문 마크다운
+- 스타일링 빈약
+  - 제가 투자한 시간에 비해 시간이 많이 부족하였고 기능 구현에 일단 초점을 맞추어 UI 스타일링이 많이 빈약합니다.
 
-## Goals
+## 추가구현사항
 
-- Easy migration from Create React App or Vite
-- As beginner friendly as Create React App
-- Optimized performance compared to Create React App
-- Customizable without ejecting
+- 양식지우기
 
-## Scripts
+## PS
 
-- `dev`/`start` - start dev server and open browser
-- `build` - build for production
-- `preview` - locally preview production build
-- `test` - launch test runner
-
-## Inspiration
-
-- [Create React App](https://github.com/facebook/create-react-app/tree/main/packages/cra-template)
-- [Vite](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react)
-- [Vitest](https://github.com/vitest-dev/vitest/tree/main/examples/react-testing-lib)
+전역상태관리를 위해 redux를 사용하는건 처음인데 이렇게 과제를 통해 다소 익힐 수 있어서 좋았습니다.
